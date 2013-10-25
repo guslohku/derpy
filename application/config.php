@@ -23,6 +23,7 @@ $de->config['base_url'] = null;
  * Define session name
  */
 $de->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
+$de->config['session_key']  = 'derpy';
 
 /**
  * Define server timezone
@@ -39,6 +40,17 @@ $de->config['character_encoding'] = 'UTF-8';
  */
 $de->config['language'] = 'en';
 
+/**
+* Set database(s).
+*/
+$de->config['database'][0]['dsn'] = 'sqlite:' . DERPY_SITE_PATH . '/data/.ht.sqlite';
+
+/**
+* Set what to show as debug or developer information in the get_debug() theme helper.
+*/
+$de->config['debug']['derpy'] = false;
+$de->config['debug']['db-num-queries'] = true;
+$de->config['debug']['db-queries'] = true;
 
 /**
  * Define the controllers, their classname and enable/disable them.
@@ -52,6 +64,7 @@ $de->config['language'] = 'en';
 $de->config['controllers'] = array(
   'index'     => array('enabled' => true,'class' => 'CCIndex'),
   'developer' => array('enabled' => true,'class' => 'CCDeveloper'),
+  'guestbook' => array('enabled' => true,'class' => 'CCGuestbook'),
 );
 
 /**

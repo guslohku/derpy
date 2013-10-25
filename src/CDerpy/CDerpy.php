@@ -2,13 +2,28 @@
 class CDerpy implements ISingleton {
 
 	private static $instance = null;
+        public $config = null;
+        public $request = null;
+        public $data = null;
+        public $db = null;
+        public $views;
+        public $session;
 
 	/**
 	 * Constructor
 	 */
 	 protected function __construct() {
-		$de = &$this;
+		$de = &$this;				
 		require(DERPY_SITE_PATH.'/config.php');
+		session_name($this->config['session_name']);
+                session_start();
+                $this->session = new CSession($this->config['session_key']);
+                $this->session->PopulateFromSession();
+                
+		if(isset($this->config['database'][0]['dsn'])) {
+			$this->db = new CDatabase($this->config['database'][0]['dsn']);
+        	}
+        	$this->views = new CViewContainer();
 	} 
   
 	/**
@@ -26,6 +41,7 @@ class CDerpy implements ISingleton {
 	 * Frontcontroller, check url and route to controllers.
 	 */
 	 public function FrontControllerRoute() {
+	    
 	    // Take current url and divide it in controller, method and parameters
 	    $this->request = new CRequest($this->config['url_type']);
 	    $this->request->Init($this->config['base_url']);
@@ -38,6 +54,7 @@ class CDerpy implements ISingleton {
 	    $controllerEnabled 	= false;
 	    $className			    = false;
 	    $classExists 		    = false;
+	    $formattedMethod = str_replace(array('_', '-'), '', $method);
 	
 	    if($controllerExists) {
 	      $controllerEnabled 	= ($this->config['controllers'][$controller]['enabled'] == true);
@@ -90,8 +107,9 @@ class CDerpy implements ISingleton {
 	      include $functionsPath;
 	    }
 	
-	    // Extract $de->data to own variables and handover to the template file
-	    extract($this->data);      
+	    // Extract $ly->data and $ly->view->data to own variables and handover to the template file
+	    extract($this->data);     
+	    extract($this->views->GetData());     
 	    include("{$themePath}/default.tpl.php");
 	  }
 

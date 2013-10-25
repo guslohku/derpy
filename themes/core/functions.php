@@ -6,7 +6,7 @@
 /**
  * Add static entries in the template file. 
  */
-$de->data['header'] = '<h1>Header: Derpy a PHP MVC Framework</h1>';
+$de->data['header'] = '<h1>Derpy a PHP MVC Framework</h1>';
 $de->data['footer'] = <<<EOD
 <p>Footer: &copy; Derpy, based on Lydia by Mikael Roos</p>
 

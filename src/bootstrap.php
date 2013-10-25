@@ -13,5 +13,21 @@ function autoload($aClassName) {
 		require_once($file2);
 	}
 }
+
+/**
+* Helper, wrap html_entites with correct character encoding
+*/
+function htmlent($str, $flags = ENT_COMPAT) {
+  return htmlentities($str, $flags, CDerpy::Instance()->config['character_encoding']);
+}
+
+    /**
+    * Set a default exception handler and enable logging in it.
+    */
+    function exception_handler($exception) {
+      echo "Derpy: Uncaught exception: <p>" . $exception->getMessage() . "</p><pre>" . $exception->getTraceAsString(), "</pre>";
+    }
+    set_exception_handler('exception_handler');
+
 spl_autoload_register('autoload');
 

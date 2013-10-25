@@ -13,7 +13,8 @@ class CCIndex implements IController {
 	 */
 	private function Menu() {	
 		$de = CDerpy::Instance();
-		$menu = array('index', 'index/index', 'developer', 'developer/index', 'developer/links');
+		$menu = array('index', 'index/index', 'developer', 'developer/index', 'developer/links',
+			'developer/display-object', 'guestbook');
 		
 		$html = null;
 		foreach($menu as $val) {
